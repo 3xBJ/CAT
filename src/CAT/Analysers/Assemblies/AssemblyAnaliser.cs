@@ -32,12 +32,15 @@ namespace CAT.Analysers.Assemblies
                 assemblies.Add(assemblyInfo);
 
                 Assembly assembly = GetAssemblyByName(assemblyInfo.Name);
-                AssemblyName[] dependencies = assembly.GetReferencedAssemblies();
-
-                int level = assemblyInfo.Level + 1;
-                foreach (AssemblyName name in dependencies)
+                if (assembly != null)
                 {
-                    assembliesToanalize.Push(new Info(name.Name, level));
+                    AssemblyName[] dependencies = assembly.GetReferencedAssemblies();
+
+                    int level = assemblyInfo.Level + 1;
+                    foreach (AssemblyName name in dependencies)
+                    {
+                        assembliesToanalize.Push(new Info(name.Name, level));
+                    }
                 }
             }
 
@@ -46,10 +49,23 @@ namespace CAT.Analysers.Assemblies
 
         private static Assembly GetAssemblyByName(string name)
         {
-            string dllName = name + ".dll";
+            try
+            {
+                string dllName = name;
+                if (!dllName.EndsWith(".dll"))
+                {
+                    dllName += ".dll";
+                }
 
-            return File.Exists(dllName) ? Assembly.LoadFrom(dllName) :
-                                          Assembly.Load(name);
+                return File.Exists(dllName) ? Assembly.LoadFrom(dllName) :
+                                              Assembly.Load(name);
+            }
+            catch (Exception e)
+            {
+                //do something here
+            }
+
+            return null;
         }
     }
 }

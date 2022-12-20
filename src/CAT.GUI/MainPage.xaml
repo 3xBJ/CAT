@@ -1,6 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:cat="clr-namespace:CAT.GUI"
+             x:DataType="cat:MainVM"
              x:Class="CAT.GUI.MainPage">
 
     <ScrollView>
@@ -16,25 +18,49 @@
                 HorizontalOptions="Center" />
 
             <Label
-                Text="Hello, World!"
+                Text="Hey, what u wanna do?"
                 SemanticProperties.HeadingLevel="Level1"
                 FontSize="32"
                 HorizontalOptions="Center" />
 
             <Label
-                Text="Welcome to .NET Multi-platform App UI"
+                Text="Time to run some tests and drink some coffe!!1!"
                 SemanticProperties.HeadingLevel="Level2"
                 SemanticProperties.Description="Welcome to dot net Multi platform App U I"
                 FontSize="18"
                 HorizontalOptions="Center" />
 
-            <Button
-                x:Name="CounterBtn"
-                Text="Click me"
-                SemanticProperties.Hint="Counts the number of times you click"
-                Clicked="OnCounterClicked"
+            <HorizontalStackLayout
+                Spacing="25"
+                Padding="30,0"
+                HorizontalOptions="Center">
+
+                <Button
+                x:Name="AnalyzerBtn"
+                Text="Analizer"
+                SemanticProperties.Hint="Open Analyzer menu"
+                Command="{Binding OpenAnalyzerCommand}"
                 HorizontalOptions="Center" />
 
+                <Button
+                x:Name="RunPipeBtn"
+                Text="Run a PiPe"
+                SemanticProperties.Hint="Counts the number of times you click"
+                HorizontalOptions="Center" />
+
+                <Button
+                x:Name="CreatePipeBtn"
+                Text="Create a PiPe"
+                SemanticProperties.Hint="Counts the number of times you click"
+                HorizontalOptions="Center" />
+
+                <Button
+                x:Name="ConfigsBtn"
+                Text="Configs"
+                SemanticProperties.Hint="Configuration options"
+                HorizontalOptions="Center" />
+
+            </HorizontalStackLayout>
         </VerticalStackLayout>
     </ScrollView>
 

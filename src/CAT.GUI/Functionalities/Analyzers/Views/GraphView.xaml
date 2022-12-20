@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:drawables="clr-namespace:CAT.GUI.Functionalities.Analyzers.Drawables"
+             x:Class="CAT.GUI.Functionalities.Analyzers.Views.GraphView">
+    <ContentView.Resources>
+        <drawables:GraphDrawable x:Key="drawable" x:Name="drawable"/>
+    </ContentView.Resources>
+
+    <VerticalStackLayout>
+        <GraphicsView x:Name="graphCanvas"
+                      Drawable="{StaticResource drawable}"
+                      HeightRequest="500"
+                      WidthRequest="500"/>
+    </VerticalStackLayout>
+</ContentView>

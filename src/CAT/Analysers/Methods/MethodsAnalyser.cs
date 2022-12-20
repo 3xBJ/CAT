@@ -23,7 +23,7 @@ namespace CAT.Analysers.Methods
         {
             List<MethodInformation> methodsInfo = new();
             List<MethodInformation> methodsWhithoutCallAdded = new();
-            AssemblyDefinition asm = AssemblyDefinition.ReadAssembly(dllPath + ".dll");
+            AssemblyDefinition asm = AssemblyDefinition.ReadAssembly(dllPath);
             IEnumerable<MethodDefinition>? allMethods = asm.Modules.SelectMany(mod => mod.Types)
                                                                    .SelectMany(type => type.Methods)
                                                                    .Where(method => method.HasBody);
@@ -62,6 +62,12 @@ namespace CAT.Analysers.Methods
                 if (callInstructions.Any(instructionCode.Contains))
                 {
                     string methodFullName = instructionCode.Split().Last();
+                    if (methodFullName.Split("::").Length < 2)
+                    {
+                        //someone is using the callInstructions whithout a method
+                        continue;
+                    }
+
                     MethodInformation? methodInfo = methods.Where(m => m.Equals(methodFullName)).FirstOrDefault();
 
                     //prevents creating more than one instance for the same method
@@ -94,6 +100,12 @@ namespace CAT.Analysers.Methods
             else
             {
                 methodInfo = new MethodInformation(fullName, calledMethods);
+            }
+
+            //TODO: try to do this when listing the methodscalled
+            foreach(var methodCalled in calledMethods)
+            {
+                methodCalled.CalledBy.Add(methodInfo);
             }
 
             return methodInfo;
