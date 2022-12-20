@@ -70,6 +70,13 @@ public class MethodInformation
     [JsonPropertyName("CalledBy")]
     public HashSet<MethodInformation> CalledBy { get; } = new();
 
+    public HashSet<string> FindFirstAncestor()
+    {//return an object with a message and the list
+        HashSet<string> originalCalls = new();
+        FindOriginalCall(this, originalCalls);
+        return originalCalls;
+    }
+
     /// <summary>
     /// Compares <paramref name="obj"/> whith <see cref="this"/>
     /// </summary>
@@ -81,7 +88,7 @@ public class MethodInformation
         {
             return FullName == fullName;
         }
-        else if(obj is MethodInformation methodInfo)
+        else if (obj is MethodInformation methodInfo)
         {
             return methodInfo.FullName == FullName;
         }
@@ -90,4 +97,17 @@ public class MethodInformation
     }
 
     public override int GetHashCode() => FullName.GetHashCode();
+
+    private static void FindOriginalCall(MethodInformation method, HashSet<string> originalCalls)
+    {
+        foreach (var ancestor in method.CalledBy)
+        {
+            if (ancestor.CalledBy.Count == 0)
+            {
+                originalCalls.Add(ancestor.FullName);
+            }
+
+            FindOriginalCall(ancestor, originalCalls);
+        }
+    }
 }

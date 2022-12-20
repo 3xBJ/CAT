@@ -27,7 +27,7 @@ public static class Processor
         Console.WriteLine(string.Join(Environment.NewLine, assemblies.Select(a => a.Name + "; level:" + a.Level)));
 
         var methods = MethodsAnalyser.GetMethodsAnditsCalls(dllPath);
-        var a = TestFinder.ThatCallMethod(methods, "CAT.Test.Util.ClassToAnalize::MyMethod1()");
+        var a = MethodProcessor.FindFirstAncestor(methods, "CAT.Test.Util.ClassToAnalize::MyMethod2()");
 
         return methods;
     }
